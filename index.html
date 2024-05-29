@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hcmute fcu system</title>
+    <link rel="stylesheet" href="style-dieu-khien-quat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+</head>
+<body>
+    <div id="header">
+        <div id="logo">
+            <img src="hinh/logo.png" width="80px" alt="hinh logo truong">
+            
+            <div id="text-hihi">
+                <p id="text1"> TRƯỜNG ĐẠI HỌC </p>
+                <p id="text2"> SƯ PHẠM KỸ THUẬT TP. HỒ CHÍ MINH </p>
+            </div>
+            
+        </div>
+        <div id="detai">
+            <p id="ten-de-tai">ỨNG DỤNG BMS GIÁM SÁT VÀ ĐIỀU KHIỂN HỆ THỐNG FCU KẾT HỢP CHILLER</p>
+        </div>
+    </div>
+
+    <div id="content-1">
+        <section id="modal-monitor" class="modal-monitor">
+            <div id="voltage-monitor" class="voltage-monitor">
+                <div id="volt" class="value"></div>
+                <div id="frame-chart-voltage" class="frame-chart">
+                    <p id="frame-chart-voltage-text" class="frame-chart-text">Chart Temperature</p>
+                    <canvas id="chart-voltage" class="chart"></canvas>
+                </div>
+            </div>
+        </section>
+        <div class="mode-thermostat">
+            <p id="mode">Mode</p>
+            <div id="frame-emty">
+                
+                <form id="search-setpoint">
+                    <div id="set-point-display" style="display:none">
+                        <label id="set-point"></label>
+                        <input  id="set-point-value" placeholder="Nhập set point"/>   
+                        <button id="submit-setpoint">Submit</button>
+                    </div>
+                </form>
+                <label id="manual-auto">Manual&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Auto</label>
+                    <label class="switch"> 
+                    <input type="checkbox" id="myCheck" onclick="myFunction()">
+                    <!-- <input type="checkbox"> -->
+                    <span class="slider"></span>
+                    
+            </div>
+            <p id="text-thermostat">Thermostat</p>
+            <div id="on-off-thermostat">
+                
+
+            </div>
+            <div id="frame-emty1">
+                <label id="check-box-thermostat">
+                <input type="checkbox" id="imageCheckbox-thermostat" onclick="toggleImage()">
+                    <img id="checkboxImage-thermostat" src="hinh/THERMOS-OFF.png" alt="Checkbox Image">
+                </label>
+            </div>
+            
+        </div>    
+               
+            <div class="monitoring">
+                <p id="monitoring">Monitoring </p>
+                <div id="m-frame0">
+                    <p id="monitor-speed"><img src="hinh/speed.png" width="25px"alt=""><br>Speed: <br><span id="speed-fan"></span> <br>&nbsp;&nbsp;npm</p>
+                </div>
+                <div id="m-frame1">
+                    <p id="monitor-current"><img src="hinh/ampere.png"  width="25px"alt=""><br>Current: <br><span id="current-fan"></span> <br>&nbsp;&nbsp;&nbsp;&nbsp;A</p>
+                </div>
+                <div id="m-frame2">
+                    <p id="monitor-voltage"><img src="hinh/voltage.png" width="25px"alt=""> <br>Voltage: <br><span id="voltage-fan"></span> <br>&nbsp;&nbsp;&nbsp;&nbsp;V</p>
+                </div>
+                <div id="m-frame3">
+                    <p id="monitor-power"><img src="hinh/Current.png"     width="25px"alt=""><br>Power: <br><span id="power-fan"></span><br>&nbsp;&nbsp; kW</p>
+                </div>
+                
+            </div>
+            
+            
+    </div>
+    
+    <div id="content">
+        <div class="vitri-content1">
+            <div class="vitri-content1">
+            
+        <div id="fcu-image">
+            <img id="flow" src="" alt="" width="720px">
+            <img id="dong-chay" src="" alt="" width="720px">
+            <img src="hinh/pa51.png" width="720px" alt="anh fcu">
+            
+        </div>
+        
+        <img id="truong_toi" src="hinh/hcmute.png" alt="">   
+        
+        
+        <img id="truongtoithermostat" src="hinh/thermnostat ngoi truong toi yeu.png" alt="" width="70px">
+        <div id="callout-temp">
+            <!-- <div id="header-callout-temp"><p id="temp-tieude">Temp</p></div> -->
+            <p id="tamgiac">▼</p>
+            <!-- <img src="/hinh/call-out.png" alt="" width="120px"> -->
+            
+            <h2 id="temp"> Temp: <span id="nhietdo">00</span> ℃</h2>
+        </div>
+        <div id="callout-pres">
+            <p id="tamgiac1">▼</p>
+            <!-- <div id="header-callout-pres"><p id="pres-tieude">Pressure</p></div> -->
+            <!-- <img src="/hinh/call-out.png" alt="" width="120px"> -->
+            <h2 id="pressure">Pressure: <span id="apsuat">00</span> Pa</h2>
+        </div>
+        <img id="status-thermos"  >
+        <!-- <div id="ba-mode"> -->
+            <p id="bot-ma"></p>
+        <!-- </div> -->
+        <h2 id="thermos-tonlem">  <span id="themotat">00</span> ℃</h2>
+        
+        <div id="giam-sat-fan">
+            
+            <img id="image-status-fan" src="hinh/fan.png" width="30px">
+            <p id="monitor-tanso">Frequency: <span id="frq-value">00</span> Hz </p>
+            <br>
+            <p id="monitor-status">Status: <span id="status-fan"></span> </p>
+            
+                <!-- <div id="myModal2" class="modal2">
+                    
+                    <div class="modal-content2">
+                        <span class="close2">&times;</span>
+                        <p id="monitor-speed">Speed: <span id="speed-fan"></span> npm</p>
+                        <p id="monitor-current">Current: <span id="current-fan"></span> A</p>
+                        <p id="monitor-voltage">Voltage: <span id="voltage-fan"></span> V</p>
+                        <p id="monitor-power">Power: <span id="power-fan"></span> kW</p>
+                    </div>
+                </div> -->
+        </div>
+        <button id="btn-fan">fan</button>
+        <img id="lock" src="" alt="">
+        <img id="lock1" src="" alt="">
+        <img id="lock2" src="" alt="">
+        <div id="button">      
+            <!-------------- modal----------------- -->
+            <div id="myModal" class="modal">
+                
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div id="header-fan">
+                        <span class="close">&times;</span>
+                        <p id="Manual-chu">Manual</p>
+                    </div>
+                    <div id="body-fan">
+                    <form id="search">
+                        <label>FRQ</label>
+                        <input name="frq" id="set-frq" placeholder="..." ><p></p>
+                        <label>ACC</label>
+                        <input name="acc" id="set-acc" placeholder="..."><p></p>
+                        <label>DEC</label>
+                        <input name="dec" id="set-dec" placeholder="...">
+                        <p></p>
+                        <div id="may-cai-nut-run">
+                            <button type="button" id="run-thuan">Run</button>
+                            <!-- <button type="button" id="run-nghich">Nghịch</button> -->
+                            <button type="button" id="run-stop">Stop</button>
+                        </div>
+                    </form>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+                <!-------------- modal COIL ------------------->
+            <button id="btn-coil">coil</button>
+                <div id="myModal1" class="modal1">
+                    <!-- Modal content -->
+                    <div class="modal-content1">
+                        <div id="header-valve">
+                            <span class="close1">&times;</span>
+                            <p id="Manual-chu">Valve</p>
+                        </div>
+                        <div id="on-off-valve">
+                            <button id="btn-valve-on">ON</button>
+                            <button id="btn-valve-off">OFF</button> 
+                        </div>
+                    </div>
+                </div>
+            <!-----------------END MODAL COIL----------------->
+            
+            <div id="valve">
+                
+                <div id="valve-1">
+                    <label id="van1">Valve 1</label>
+                    <img id="img-van1" src="hinh/led-off.png" alt="" width="15px">
+                </div>
+                <div id="valve-2">
+                    <label id="van2">Valve 2</label>
+                    <img id="img-van2" src="hinh/led-off.png" alt="" width="15px">
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- /////////////////////////set-point////////////// -->
+        
+        <!-- /////////////////////////set-point////////////// -->
+        <div id="right-box">
+            <header-r id="header-right">
+                
+            </header-r>
+        </div>
+        
+
+        <p id="text" style="display:none">Checkbox is CHECKED!</p>
+        <img id="frame" src="" alt="" width="250px">
+        <div id="pres-1"></div>
+               
+        <!-- ---------------------------------------------NÚT NHẤN THERMOSTAT -------------- -->
+        
+        <!-- --------------------------------------------END NÚT NHẤN THERMOSTAT -------------------------------------------- -->
+        <!-- ==================bảng trạng thái bên phải----------------------- -->
+        
+       
+        <!-- ================== end bảng trạng thái bên phải----------------------- -->        
+    </div>
+    </div>
+    <div id="content-3">
+        <h2 id="asss"> khuong: <span id="read">00</span> ℃</h2>
+        <h2 id="asss"> khuong: <span id="read1">00</span> ℃</h2>
+        <h2 id="asss"> khuong: <span id="read2">00</span> ℃</h2>
+        <h2 id="asss"> khuong: <span id="read3">00</span> ℃</h2>
+
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>  
+        <script src="script-dieu-khien-quat.js"></script> 
+</body>
