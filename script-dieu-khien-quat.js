@@ -364,7 +364,7 @@ function myFunction() {
 
   // If the checkbox is checked, display the output text
   if (checkBox.checked == true){
-    text.style.display = "block";
+        text.style.display = "block";
     database.ref("Control/O ENABLE").update({"data" : 0});
     
     // document.getElementById("submit-setpoint").disabled = true;
