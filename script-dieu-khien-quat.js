@@ -63,9 +63,13 @@ var value_voltage = [];
 var j = 0;
 var volt_out = 0;
 var chartinterval;
-database.ref("Monitor/TEMP/data").on("value", function (snapshot) {
+database.ref("Monitor/TEMP1/data").on("value", function (snapshot) {
     volt_out = snapshot.val();
-    // document.getElementById("nhietdo").innerHTML = volt_out;   
+     // get temp  from firebase (auto update when data change)
+//  database.ref("Monitor/TEMP/data").on("value", function(snapshot){
+  // var nhietdo_out = snapshot.val();
+  document.getElementById("nhietdo").innerHTML = volt_out;
+
     //----------------------------- Chart ----------------------------
     // Cập nhật biểu đồ ngay lập tức khi có dữ liệu mới
     updateChartvoltage(volt_out);
@@ -148,11 +152,7 @@ database.ref("Monitor/POWER/data").on("value", function(snapshot){
   document.getElementById("frq-value").innerHTML = frequency;
 }) 
 
- // get temp  from firebase (auto update when data change)
- database.ref("Monitor/TEMP/data").on("value", function(snapshot){
-  var nhietdo_out = snapshot.val();
-  document.getElementById("nhietdo").innerHTML = nhietdo_out;
-}) 
+
 
 
 database.ref("Control/O ENABLE/data").on("value", function(snapshot){
@@ -243,7 +243,7 @@ document.getElementById('submit-setpoint').addEventListener('click', function(ev
 // ----------------------------------STOP STOP STOP STOP STOP STOP STOP STOP -------------
 document.getElementById('run-stop').addEventListener('click', function()
 {
-  database.ref("Control/VIRTUAL RUN CM").update({"data" : 0})
+  database.ref("Control/VIRTUAL RUN CM").update({"data" : 1})
     // event3.preventDefault();      
       fan();      
 })
@@ -485,12 +485,12 @@ function fan(){
               const thermosc = snapshots[2].val();
               document.getElementById("read1").innerHTML = frqData;
               document.getElementById("read2").innerHTML = runCmData;
-              if ((frqData > 0 && runCmData > 0) ||(frqData > 0 && thermosc > 0))
+              if ((frqData > 0 && runCmData > 1) ||(frqData > 0 && thermosc > 0))
                 {
                   document.getElementById("image-status-fan").src = "hinh/fan speed high.gif";
                   document.getElementById("flow").src = "hinh/flow.gif";
                 }
-              else if (frqData == 0 || runCmData == 0 || thermosc == 0 )
+              else if (frqData == 0 || runCmData == 1 || thermosc == 0 )
                 {
                   document.getElementById("image-status-fan").src = "hinh/fan.png";
                   document.getElementById("flow").src = "";
