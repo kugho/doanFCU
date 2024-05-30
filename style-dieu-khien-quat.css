@@ -632,7 +632,7 @@ input:checked + .slider:before {
   #callout-temp{
     background-color:rgba(255, 115, 0, 0.555);
     height: 30px;
-    width: 100px;
+    width: 130px;
     position: fixed;
     margin: 20px 260px;
     border-style: solid;

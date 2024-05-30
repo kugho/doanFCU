@@ -19,7 +19,7 @@ function getArr(arr, newVal) {
   if (arr.length === 0 && !newVal) return [];
 
   const newArr = [...arr, newVal];
-  if (newArr.length > 8) {
+  if (newArr.length > 11) {
       newArr.shift();
   }
   return newArr;
@@ -48,10 +48,10 @@ var chart_voltage = new Chart(voltage, {
       },
       scales: {
           y: {
-              min: 15,
-              max: 35,
+              min: 20,
+              max: 31,
               ticks: {
-                  stepSize: 1
+                  stepSize: 0.2
               }
           }
       }
@@ -68,7 +68,7 @@ database.ref("Monitor/TEMP1/data").on("value", function (snapshot) {
      // get temp  from firebase (auto update when data change)
 //  database.ref("Monitor/TEMP/data").on("value", function(snapshot){
   // var nhietdo_out = snapshot.val();
-  document.getElementById("nhietdo").innerHTML = volt_out;
+  document.getElementById("nhietdo").innerHTML = volt_out - 1.5;
 
     //----------------------------- Chart ----------------------------
     // Cập nhật biểu đồ ngay lập tức khi có dữ liệu mới
@@ -90,7 +90,13 @@ if (!chartinterval) {
 }
 
 var water;
-database.ref("Control/VIRTUAL OV VALVE/data").on("value", function (snapshot) {
+// database.ref("Control/VIRTUAL OV VALVE/data").on("value", function (snapshot) {
+//   water = snapshot.val();
+//   if (water == 1)
+//   document.getElementById("dong-chay").src ="hinh/dongchaynuoc.gif"
+//   else document.getElementById("dong-chay").src =""
+// });
+database.ref("Monitor/RELAY OUTPUT/data").on("value", function (snapshot) {
   water = snapshot.val();
   if (water == 1)
   document.getElementById("dong-chay").src ="hinh/dongchaynuoc.gif"
@@ -152,8 +158,17 @@ database.ref("Monitor/POWER/data").on("value", function(snapshot){
   document.getElementById("frq-value").innerHTML = frequency;
 }) 
 
+//ĐƯA DỮ LIỆU SETPOINT TỪ FIREBASE VỀ HIỂN THỊ TRÊN KHUNG SETPOINT NHIỆT ĐỘ
+// firebase.database().ref("Control/VIRTUAL/data").on("value", (snapshot) => {
+//   var setpointValuetemphienthi = snapshot.val();
+//   updateSetpointDisplay(setpointValuetemphienthi);
+// });
 
-
+///// LẤY GIÁ TRỊ SETPOINT TỪ FIREBASE VỀ HIỂN THỊ TRÊN WEB
+// function updateSetpointDisplay(value) {
+//   var setpointElement = document.getElementById("set-point-value");
+//   setpointElement.value = value;
+// }
 
 database.ref("Control/O ENABLE/data").on("value", function(snapshot){
   var mode = snapshot.val();
@@ -162,10 +177,6 @@ database.ref("Control/O ENABLE/data").on("value", function(snapshot){
     {
       document.getElementById("image-status-fan").src = "hinh/fan speed high.gif";
       document.getElementById("flow").src = "hinh/flow.gif";
-      // database.ref("Control/O VALUE/data").on("value", function(snapshot1){
-      //   var mode = snapshot1.val();
-      //   document.getElementById("read1").innerHTML = mode;
-      // })
       document.getElementById('lock').src="hinh/padlock.png";
       document.getElementById('lock2').src="hinh/padlock.png";
       document.getElementById("btn-fan").disabled = true;
@@ -192,7 +203,7 @@ var img1 = document.getElementById("img-van1");
 var img2 = document.getElementById("img-van2");
 
 //Get led from firebase (auto update when data change)
-database.ref("Control/VIRTUAL OV VALVE/data").on("value", function(snapshot){
+database.ref("Monitor/RELAY OUTPUT/data").on("value", function(snapshot){
   var led_valve = snapshot.val();
   if(led_valve==1){
     document.getElementById("img-van1").src ="hinh/led-on.png"
@@ -226,6 +237,34 @@ document.getElementById('run-thuan').addEventListener('click', function(){
   });
   fan();
 });
+/////////////////////////////////////////////////////////////////////////////////////
+firebase.database().ref("Control/O VALUE/data").on("value", (snapshot) => {
+  var tanso_frq = snapshot.val();
+  updateSetpointDisplay(tanso_frq);
+});
+function updateSetpointDisplay(value) {
+  var tanso = document.getElementById("set-frq");
+  tanso.value = value;
+}
+/////////////////////////////////////////////////////////////////////////////////////
+firebase.database().ref("Control/VIRTUAL ACC/data").on("value", (snapshot) => {
+  var tocdo_acc = snapshot.val();
+  updateSetpointDisplay1(tocdo_acc);
+});
+function updateSetpointDisplay1(value) {
+  var acc = document.getElementById("set-acc");
+  acc.value = value;
+}
+/////////////////////////////////////////////////////////////////////////////////////
+firebase.database().ref("Control/VIRTUAL DEC/data").on("value", (snapshot) => {
+  var tocdo_dec = snapshot.val();
+  updateSetpointDisplay2(tocdo_dec);
+});
+function updateSetpointDisplay2(value) {
+  var dec = document.getElementById("set-dec");
+  dec.value = value;
+}
+//////////////////////////////////////////////////////////////////////////////////////  suar
 // ///////-----////------NHAP GIA TRI SET POINT ---------////////-------------------///////////////
 document.getElementById('submit-setpoint').addEventListener('click', function(event){
   // Prevent the default form submission
@@ -240,6 +279,23 @@ document.getElementById('submit-setpoint').addEventListener('click', function(ev
 
   });
 });
+
+//////////////////////////////////////////////////////////////////////
+
+//ĐƯA DỮ LIỆU SETPOINT TỪ FIREBASE VỀ HIỂN THỊ TRÊN KHUNG SETPOINT NHIỆT ĐỘ
+firebase.database().ref("Control/VIRTUAL SET POINT/data").on("value", (snapshot) => {
+  var setpointValuetemphienthi = snapshot.val();
+  updateSetpointDisplay3(setpointValuetemphienthi);
+});
+
+///// LẤY GIÁ TRỊ SETPOINT TỪ FIREBASE VỀ HIỂN THỊ TRÊN WEB
+function updateSetpointDisplay3(value) {
+  var setpointElement = document.getElementById("set-point-value");
+  setpointElement.value = value;
+}
+
+
+///////////////////////////////////////////////////////////////////
 // ----------------------------------STOP STOP STOP STOP STOP STOP STOP STOP -------------
 document.getElementById('run-stop').addEventListener('click', function()
 {
@@ -422,22 +478,32 @@ function toggleImage() {
       document.getElementById("submit-setpoint").disabled = true;
       // document.getElementById("myCheck").disabled=true;
       document.getElementById("bot-ma").innerHTML = "High <br> Medium <br> Low <br> Auto";
-      // document.getElementById("bot-ma").innerHTML = "Medium";
-      // document.getElementById("bot-ma").innerHTML = "Low";
-      // document.getElementById("bot-ma").innerHTML = "Auto";
-      // else {
-      //   x.style.display = "block";
-      // }
-      // text_bamode.style.display = 'block';                 
-      // var status_thermos_img = document.getElementById('status-thermos');
+
       database.ref("Control/STATUS/data").on("value", function (snapshot) {
         status_thermos = snapshot.val();
-        if(status_thermos==2) document.getElementById('status-thermos').src="hinh/thermostat status.png";
-          else if(status_thermos==1) document.getElementById('status-thermos').src="hinh/thermostat status1.png" ;
-          else if(status_thermos==0) document.getElementById('status-thermos').src="hinh/thermostat status2.png";
-          else if(status_thermos==3) document.getElementById('status-thermos').src="hinh/thermostat status3.png";
+        if(status_thermos==2) 
+          {
+            document.getElementById('status-thermos').src="hinh/thermostat status.png";
+            database.ref("Control").update({"VIRTUAL RUN CM/data": 2})
+          }
+          else if(status_thermos==1) 
+          {
+            document.getElementById('status-thermos').src="hinh/thermostat status1.png" ;
+            database.ref("Control").update({"VIRTUAL RUN CM/data": 2})
+          }
+          else  if(status_thermos==0) 
+          {
+            document.getElementById('status-thermos').src="hinh/thermostat status2.png";
+            database.ref("Control").update({"VIRTUAL RUN CM/data": 2})
+          }
+          else if(status_thermos==3) 
+          {
+            document.getElementById('status-thermos').src="hinh/thermostat status3.png";
+            
+          }
           
       });
+      
   } else {
       image.src = "hinh/THERMOS-OFF.png";
       document.getElementById("btn-fan").disabled = false;
@@ -496,3 +562,5 @@ function fan(){
                   document.getElementById("flow").src = "";
                 }
           })}
+
+
